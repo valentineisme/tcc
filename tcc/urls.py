@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^validacao/$', views.login, name='login'),
     url(r'^sair/$', views.sair, name='sair'),
     url(r'^caso/', views.caso, name='caso'),
-    url(r'^comparacao/', views.comparacao, name='comparacao'),
+    url(r'^resultado/', views.resultadoCaso, name='resultadoCaso'),
 ]

@@ -62,7 +62,7 @@ def caso(request):
     return render(request, 'pages/caso.html', context_dict)
 
 @login_required
-def comparacao(request):
+def resultadoCaso(request):
     peso = [0.2, 0.1, 0.2]
     if request.POST:
         objeto1 = request.POST.get('objeto1')
@@ -72,7 +72,7 @@ def comparacao(request):
     novoCaso = [objeto1, relacao, objeto2, distancia]
     peso = [0.2, 0.1, 0.2]
     resultado = []
-    listFinal = []
+    #restricao = []
     def EhIgual(x, y):
         peso = 0
         if (x == y):
@@ -95,9 +95,11 @@ def comparacao(request):
     casolist = casos.objects.order_by('-id')
     restricaoList = restricao.objects.order_by('-id')
     for caso in casolist:
-        #for restricao in restricaoList:
-            #if caso.restricao --
-        velhoCaso = [caso.objeto1, caso.relacao, caso.objeto2, caso.restricao ,caso.distancia, caso.resultado, caso.plano_acao]
-        resultado.append(distancia(peso,velhoCaso,novoCaso))
-
-    return render(request, 'pages/comparacao.html', {"resultado": resultado})
+        for restr in restricaoList:
+            if (caso.restricao == restr.descricao):
+                velhoCaso = [caso.objeto1, caso.relacao, caso.objeto2, restr.distancia, caso.resultado, caso.plano_acao]
+                pass
+            else:
+                velhoCaso =[caso.objeto1, caso.relacao, caso.objeto2, caso.distancia, caso.resultado, caso.plano_acao]
+        resultado.append(distancia(peso, velhoCaso, novoCaso))
+    return render(request, 'pages/resultadoCaso.html', {"resultado": resultado})

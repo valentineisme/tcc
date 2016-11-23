@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicial</title>
+</head>
+<body>
+<form action="/validacao/" method="post">{% csrf_token %}
+<div style="text-align: center;">
+    <table>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" name="email" placeholder="Email"></td>
+        </tr>
+        <tr>
+            <td>Senha</td>
+            <td><input type="password" name="senha" placeholder="Senha"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Logar"></td>
+            <td><a href="/cadastro/">Cadastre-se</td>
+        </tr>
+    </table>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rango</title>
+    <link rel="stylesheet"/>
+</head>
+<body>
+
+<h1> Cadastro Usuario </h1>
+
+<form id="usuario_form" method="post" action="/cadastro/">
+
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+        {{ field.errors }}
+        {{ field.help_text }}
+        {{ field }}
+        <br>
+    {% endfor %}
+
+    Formação
+    <select name="formacao">
+        <option> --------------- </option>
+        <option value = "Fundamental Incompleto"> Fundamental Incompleto </option>
+        <option value = "Fundamental Completo"> Fundamental Completo </option>
+        <option value = "Superior Incompleto"> Superior Incompleto </option>
+        <option value = "Superior Completo"> Superior Completo </option>
+
+    <input type="submit" name="submit" value="Cadastrar" />
+</form>
+
+
+<br/> <a href="/inicial/">Home</a><br />
+
+</body>
+</html>

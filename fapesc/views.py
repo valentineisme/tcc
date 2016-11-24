@@ -21,7 +21,7 @@ def CadUser(request):
         if form.is_valid():
             form.formacao = request.POST.get('formacao')
             form.save(commit=True)
-            return inicial(request)
+            return index(request)
         else:
             print(form.errors)
     else:
@@ -31,7 +31,7 @@ def CadUser(request):
 
 def validacao(request):
     if request.user.id:
-        return render_to_response('inicial.html',(),context_instance=RequestContext(request,()))
+        return render_to_response('index.html',(),context_instance=RequestContext(request,()))
 
     if request.POST:
         emailUser = request.POST.get('email')
@@ -46,7 +46,7 @@ def validacao(request):
                     return HttpResponseRedirect(request.POST.get('next'))
 
                 return render_to_response('index.html',(),context_instance=RequestContext(request, ()))
-    return inicial(request)
+    return login(request)
 
 @login_required
 def sair(request):

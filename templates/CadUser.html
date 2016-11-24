@@ -6,7 +6,7 @@
         <div class="ui segment issem-cad">
             <a  href="{% url 'index' %}"><i class="big arrow circle left icon red"></i></a>
                 <h1> Cadastro Usuario </h1>
-            <form class="ui form" id="usuario_form" method="post" action="/cadastro/">
+            <form class="ui form" id="usuario_form" method="post" action="/CadUser/">
                         {% csrf_token %}
                         {% for hidden in form.hidden_fields %}
                             {{ hidden }}

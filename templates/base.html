@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ISSEM</title>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/base.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'css/jquery-ui.css' %}"/>
+    <link type="text/css" rel="stylesheet" href="{% static 'semanticui/dist/semantic.css' %}"/>
+</head>
+
+{% block body_tag %}
+    <body>
+{% endblock %}
+
+<header>
+    <div class="ui fluid">
+        <div class="ui container">
+            <h2 class="ui header red">
+                <img src="/static/images/1.png"/>
+                <div class="content">
+                    FAPESC
+                    <div class="sub header">FAPESC</div>
+                </div>
+                <div class="ui right aligned sub header">
+                    {% if user.is_anonymous %}
+                        Acesse sua Conta
+                        <div class="ui right aligned sub header">
+                            <a href="{% url 'login' %}">
+                                <i class="sign in icon"></i>
+                                <label>Logar</label>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="ui right aligned sub header">
+                            <div class="row">
+                                    <i class="ui  right large doctor icon"></i>
+
+                            </div>
+                        </div>
+                        <div class="ui right aligned sub header">
+                            {{ request.user }}
+                            <a href="{% url 'sair' %}">
+                                <i class="sign out icon"></i>
+                                <label>Sair</label>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </h2>
+        </div>
+    </div>
+</header>
+
+<nav class="ui menu large" >
+    <div class="ui container">
+{#        <a href="{% url 'issem:index' %}" class="item">Home</a>#}
+    </div>
+</nav>
+
+<article>
+    <div class="ui container issem-content">
+        {% block body_block %}
+        {% endblock %}
+    </div>
+</article>
+
+<footer class="ui inverted vertical segment footer">
+    <div class="ui centered grid">
+        Instituto de Seguridade dos Servidores Municipais<br/>
+        Rua Walter Marquardt, 623 - Barra do Rio Molha - Jaragua do Sul - SC / Fone: (47)3270 3900
+    </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/issem.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+<script type="text/javascript" src="{% static 'semanticui/dist/semantic.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.mask.js' %}"></script>
+<!-- /SCRIPTS -->
+
+</body>
+</html>

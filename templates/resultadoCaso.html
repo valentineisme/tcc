@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comparação</title>
+</head>
+<body>
+{% csrf_token %}
+{% for result in resultado %}
+    {{ result }} <br><br>
+{% endfor %}
+<a href="/validacao/">Inicio</a><br>
+<a href="/caso/">Novo Caso</a><br>
+</body>
+</html>

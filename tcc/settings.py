@@ -24,7 +24,7 @@ TEMPLATE_DIRS = (
     TEMPLATE_PATH,
 )
 
-# Configurao da Pasta de Upload de Mdias
+# Configurao da Pasta de Upload de Medias
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

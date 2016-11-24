@@ -78,35 +78,35 @@ class usuario(models.Model):
     def __str__(self):
         return self.nome
 
-
 class comunidade(models.Model):
     nome = models.CharField(max_length=128)
     bairro = models.CharField(max_length=128)
     cidade = models.CharField(max_length=128)
     estado = models.CharField(max_length=128)
+    teste = models.CharField(max_length=128)
+
 
     class Meta:
-     verbose_name = 'Comunidade'
-     verbose_name_plural = 'Comunidades'
+        verbose_name = 'Comunidade'
+        verbose_name_plural = 'Comunidades'
 
     def __str__(self):
-     return (self.nome)
+        return (self.nome)
 
 
 class imagem(models.Model):
-    comunidade = models.ForeignKey(comunidade)
-    #imagem = models.FileField(upload_to='static/', blank=True)
+    img = models.ImageField(upload_to='media/', blank=True)
     dataImagem = models.DateField(blank=True)
     latitude = models.CharField(max_length=128)
     longitude = models.CharField(max_length=128)
+    comunidade = models.ForeignKey(comunidade)
 
     class Meta:
      verbose_name = 'Imagem'
      verbose_name_plural = 'Imagens'
 
     def __str__(self):
-     return str(self.comunidade)
-
+     return str(self.id)
 
 class historico(models.Model):
     usuario = models.ForeignKey(usuario)

@@ -45,3 +45,10 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+
+#DB
+db.sqlite3
+
+#migrations
+00*_*

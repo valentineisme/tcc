@@ -1,6 +1,6 @@
 from django import forms
 import datetime
-from .models import usuario
+from .models import usuario, imagem
 
 class UsuarioForm(forms.ModelForm):
 
@@ -18,3 +18,9 @@ class UsuarioForm(forms.ModelForm):
     class Meta:
         model = usuario
         fields = ('nome','sobrenome','dataNasc','rua','numero','bairro','cidade','estado','email','senha')
+
+class imagemForm(forms.ModelForm):
+    class Meta:
+        model = imagem
+        fields = '__all__'
+

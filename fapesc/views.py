@@ -1,9 +1,9 @@
 from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate, logout, login as authlogin
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.contrib.auth.decorators import login_required
-from .models import relacao, objeto, restricao, casos
+from .models import relacao, objeto, restricao, casos, comunidade, imagem
 from .forms import UsuarioForm
 
 
@@ -32,6 +32,7 @@ def login(request):
     if request.POST:
         emailUser = request.POST.get('email')
         senhaUser = request.POST.get('senha')
+
         u = authenticate(username=emailUser, password=senhaUser)
         if u is not None:
             if u.is_active:
@@ -49,17 +50,43 @@ def sair(request):
     return inicial(request)
 
 @login_required
-def caso(request):
-    context_dict = {}
-    relacaoList = relacao.objects.order_by('-nome')
-    objetosList = objeto.objects.order_by('-nome')
-    restricaoList = restricao.objects.order_by('-distancia')
+def caso_area(request):
+    return render(request, 'pages/logado/caso_comunidade.html')
 
-    context_dict['relacoes'] = relacaoList
-    context_dict['objetos'] = objetosList
-    context_dict['restricoes'] = restricaoList
+@login_required
+def cadastroComu(request):
+    if request.POST:
+        nome = request.POST.get('nome_comu')
+        bairro = request.POST.get('bairro')
+        cidade = request.POST.get('cidade')
+        estado = request.POST.get('estado')
+        c = comunidade(nome=nome, bairro=bairro, cidade=cidade, estado=estado,teste = nome)
+        c.save()
+        return render(request, 'pages/logado/caso_imagem.html', {'nome':nome})
 
-    return render(request, 'pages/caso.html', context_dict)
+@login_required
+def cadastroImagem(request):
+    if request.POST:
+        comunidadeList = comunidade.objects.order_by('-id')
+        for comu in comunidadeList:
+            if comu.nome == request.POST.get('nome_comu'):
+                #imagem = request.POST.get('imagem')
+                data = request.POST.get('data')
+                lati = request.POST.get('lati')
+                longi = request.POST.get('longi')
+                i = imagem(comunidade = comu.id, dataImagem = data, latitude = lati, longitude = longi)
+                i.save()
+
+        context_dict = {}
+        relacaoList = relacao.objects.order_by('-nome')
+        objetosList = objeto.objects.order_by('-nome')
+        restricaoList = restricao.objects.order_by('-distancia')
+
+        context_dict['relacoes'] = relacaoList
+        context_dict['objetos'] = objetosList
+        context_dict['restricoes'] = restricaoList
+
+        return render(request, 'pages/logado/caso.html', {'id':imagem.id}, context_dict)
 
 @login_required
 def resultadoCaso(request):
@@ -69,12 +96,10 @@ def resultadoCaso(request):
         relacao = request.POST.get('relacao')
         objeto2 = request.POST.get('objeto2')
         distancia = request.POST.get('distancia')
-    novoCaso = [objeto1, relacao, objeto2, distancia]
-    peso = [0.2, 0.1, 0.2]
+    novoCaso = [str(objeto1), str(relacao), str(objeto2), str(distancia)]
+    peso = [0.8, 0.4, 0.8]
     resultado = []
-    #restricao = []
     def EhIgual(x, y):
-        peso = 0
         if (x == y):
             peso = 0
         else:
@@ -85,7 +110,7 @@ def resultadoCaso(request):
         pesoInstancias = []
         distancia = 0.0
         for i in range(0, len(peso)):
-            pesoInstancias.append(EhIgual(caso[i], novoProblema[i]))
+            pesoInstancias.append(EhIgual(str(caso[i]), novoProblema[i]))
         for i in range(0, len(peso)):
             distancia += (peso[i] * pesoInstancias[i])
         distancia = distancia
@@ -93,13 +118,7 @@ def resultadoCaso(request):
         return resultado
 
     casolist = casos.objects.order_by('-id')
-    restricaoList = restricao.objects.order_by('-id')
     for caso in casolist:
-        for restr in restricaoList:
-            if (caso.restricao == restr.descricao):
-                velhoCaso = [caso.objeto1, caso.relacao, caso.objeto2, restr.distancia, caso.resultado, caso.plano_acao]
-                pass
-            else:
-                velhoCaso =[caso.objeto1, caso.relacao, caso.objeto2, caso.distancia, caso.resultado, caso.plano_acao]
+        velhoCaso = [str(caso.objeto1), str(caso.relacao), str(caso.objeto2), caso.distancia, str(caso.resultado), str(caso.plano_acao)]
         resultado.append(distancia(peso, velhoCaso, novoCaso))
-    return render(request, 'pages/resultadoCaso.html', {"resultado": resultado})
+    return render(request, 'pages/logado/resultadoCaso.html', {"resultado": resultado})

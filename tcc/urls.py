@@ -12,6 +12,9 @@ urlpatterns = [
     url(r'^cadastro/$', views.cadastro, name='cadastro'),
     url(r'^validacao/$', views.login, name='login'),
     url(r'^sair/$', views.sair, name='sair'),
-    url(r'^caso/', views.caso, name='caso'),
+    url(r'^area/$', views.caso_area, name='area'),
+    url(r'^comunidade/$', views.cadastroComu, name='comunidade'),
+    url(r'^imagem/$', views.cadastroImagem, name='imagem'),
+    #url(r'^caso/', views.caso, name='caso'),
     url(r'^resultado/', views.resultadoCaso, name='resultadoCaso'),
 ]

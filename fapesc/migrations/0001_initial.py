@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='casos',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('distancia', models.IntegerField(default=0)),
                 ('resultado', models.CharField(max_length=128)),
                 ('plano_acao', models.CharField(max_length=128)),
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='comunidade',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=128)),
                 ('bairro', models.CharField(max_length=128)),
                 ('cidade', models.CharField(max_length=128)),
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='historico',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('data', models.DateField(blank=True)),
                 ('objeto1', models.CharField(max_length=128)),
                 ('relacao', models.CharField(max_length=128)),
@@ -60,11 +60,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='imagem',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('img', models.ImageField(upload_to='media/', blank=True)),
                 ('dataImagem', models.DateField(blank=True)),
                 ('latitude', models.CharField(max_length=128)),
                 ('longitude', models.CharField(max_length=128)),
+                ('comunidade', models.ForeignKey(to='fapesc.comunidade')),
             ],
             options={
                 'verbose_name_plural': 'Imagens',
@@ -74,7 +75,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='objeto',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=128)),
             ],
             options={
@@ -85,7 +86,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='relacao',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=128)),
             ],
             options={
@@ -96,7 +97,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='restricao',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('descricao', models.CharField(max_length=128)),
                 ('distancia', models.IntegerField()),
             ],
@@ -108,7 +109,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='usuario',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nome', models.CharField(max_length=128)),
                 ('sobrenome', models.CharField(max_length=128)),
                 ('dataNasc', models.DateField(blank=True, null=True)),
@@ -120,7 +121,7 @@ class Migration(migrations.Migration):
                 ('email', models.CharField(max_length=128)),
                 ('senha', models.CharField(max_length=128, null=True)),
                 ('formacao', models.CharField(max_length=128)),
-                ('user', models.ForeignKey(editable=False, null=True, blank=True, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, editable=False)),
             ],
             options={
                 'verbose_name_plural': 'Usuarios',
@@ -133,19 +134,14 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='fapesc.usuario'),
         ),
         migrations.AddField(
-            model_name='comunidade',
-            name='imagem',
-            field=models.ForeignKey(to='fapesc.imagem'),
-        ),
-        migrations.AddField(
             model_name='casos',
             name='objeto1',
-            field=models.ForeignKey(null=True, blank=True, to='fapesc.objeto', related_name='objeto1'),
+            field=models.ForeignKey(blank=True, related_name='objeto1', to='fapesc.objeto', null=True),
         ),
         migrations.AddField(
             model_name='casos',
             name='objeto2',
-            field=models.ForeignKey(null=True, blank=True, to='fapesc.objeto', related_name='objeto2'),
+            field=models.ForeignKey(blank=True, related_name='objeto2', to='fapesc.objeto', null=True),
         ),
         migrations.AddField(
             model_name='casos',

@@ -7,10 +7,14 @@ from .models import relacao, objeto, restricao, casos, comunidade, imagem
 from .forms import UsuarioForm
 
 
+def index(request):
+    return render(request, 'index.html')
 def inicial(request):
-    return render(request, 'pages/index.html')
+    return render(request, 'inicial.html')
+def login(request):
+    return render(request, 'login.html')
 
-def cadastro(request):
+def CadUser(request):
     if request.method == 'POST':
         form = UsuarioForm(request.POST)
 
@@ -23,11 +27,11 @@ def cadastro(request):
     else:
         form = UsuarioForm()
 
-    return render(request, 'pages/cadastro.html', {'form': form})
+    return render(request, 'CadUser.html', {'form': form})
 
-def login(request):
+def validacao(request):
     if request.user.id:
-        return render_to_response('pages/logado/inicial.html',(),context_instance=RequestContext(request,()))
+        return render_to_response('inicial.html',(),context_instance=RequestContext(request,()))
 
     if request.POST:
         emailUser = request.POST.get('email')
@@ -41,20 +45,20 @@ def login(request):
                 if request.POST.get('next'):
                     return HttpResponseRedirect(request.POST.get('next'))
 
-                return render_to_response('pages/logado/inicial.html',(),context_instance=RequestContext(request, ()))
+                return render_to_response('index.html',(),context_instance=RequestContext(request, ()))
     return inicial(request)
 
 @login_required
 def sair(request):
     logout(request)
-    return inicial(request)
+    return index(request)
 
 @login_required
 def caso_area(request):
-    return render(request, 'pages/logado/caso_comunidade.html')
+    return render(request, 'caso_comunidade.html')
 
 @login_required
-def cadastroComu(request):
+def CadComunidade(request):
     if request.POST:
         nome = request.POST.get('nome_comu')
         bairro = request.POST.get('bairro')
@@ -63,10 +67,10 @@ def cadastroComu(request):
         imagem = request.POST.get('imagem')
         c = comunidade(nome=nome, bairro=bairro, cidade=cidade, estado=estado,teste = nome)
         c.save()
-        return render(request, 'pages/logado/caso_imagem.html', {'nome':nome})
+        return render(request, 'caso_imagem.html', {'nome':nome})
 
 @login_required
-def cadastroImagem(request):
+def CadImagem(request):
     if request.POST:
         comunidadeList = comunidade.objects.order_by('-id')
         for comu in comunidadeList:
@@ -87,7 +91,7 @@ def cadastroImagem(request):
         context_dict['objetos'] = objetosList
         context_dict['restricoes'] = restricaoList
 
-        return render(request, 'pages/logado/caso.html', {'id':imagem.id}, context_dict)
+        return render(request, 'caso.html', {'id':imagem.id}, context_dict)
 
 @login_required
 def resultadoCaso(request):
@@ -122,4 +126,4 @@ def resultadoCaso(request):
     for caso in casolist:
         velhoCaso = [str(caso.objeto1), str(caso.relacao), str(caso.objeto2), caso.distancia, str(caso.resultado), str(caso.plano_acao)]
         resultado.append(distancia(peso, velhoCaso, novoCaso))
-    return render(request, 'pages/logado/resultadoCaso.html', {"resultado": resultado})
+    return render(request, 'resultadoCaso.html', {"resultado": resultado})

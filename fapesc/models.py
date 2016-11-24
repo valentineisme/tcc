@@ -97,7 +97,7 @@ class comunidade(models.Model):
     cidade = models.CharField(max_length=128)
     estado = models.CharField(max_length=128)
     teste = models.CharField(max_length=128)
-    imagem = models.ForeignKey(imagem)
+    imagem = models.ManyToManyField(imagem, blank=True)
 
     class Meta:
      verbose_name = 'Comunidade'

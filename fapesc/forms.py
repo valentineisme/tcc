@@ -1,6 +1,6 @@
 from django import forms
 import datetime
-from .models import usuario, imagem, comunidade
+from .models import usuario, imagem, comunidade, casos
 
 class UsuarioForm(forms.ModelForm):
 
@@ -27,7 +27,7 @@ class ComunidadeForm(forms.ModelForm):
     cidade = forms.CharField(max_length=128, help_text='Cidade:')
     estado = forms.CharField(max_length=128, help_text='Estado:')
     class Meta:
-        model = usuario
+        model = comunidade
         fields = '__all__'
 
 class ImagemForm(forms.ModelForm):
@@ -38,4 +38,10 @@ class ImagemForm(forms.ModelForm):
 
     class Meta:
         model = imagem
+        fields = '__all__'
+
+class CasoForm(forms.ModelForm):
+
+    class Meta:
+        model = casos
         fields = '__all__'

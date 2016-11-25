@@ -4,7 +4,7 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.contrib.auth.decorators import login_required
 from .models import relacao, objeto, restricao, casos, comunidade, imagem
-from .forms import UsuarioForm, ComunidadeForm, ImagemForm
+from .forms import UsuarioForm, ComunidadeForm, ImagemForm, CasoForm
 
 
 def index(request):
@@ -71,42 +71,21 @@ def FormImagem(request):
     form = ImagemForm()
     return render(request, 'FormImagem.html', {'form': form})
 
-
 @login_required
-
 def CadImagem(request):
     if request.POST:
         form = ImagemForm(request.POST, request.FILES)
         print (request.FILES)
         if form.is_valid():
             form.save()
-            return render(request, 'caso.html')
+            return render(request, 'CadCaso.html')
         else:
             print(form.errors)
         return render(request, 'FormImagem.html', {'form': form, 'method': 'post'})
-
-        # comu = comunidade.objects.get(nome=request.POST.get('nome_comu'))
-        #
-        # # imagem = request.POST.get('imagem')
-        # data = request.POST.get('data')
-        # lati = request.POST.get('lati')
-        # longi = request.POST.get('longe')
-        # i = imagem(comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
-        # i.save()
-        #
-        # imag = imagem.objects.get(comunidade=comu)
-
-    # context_dict = {}
-    # relacaoList = relacao.objects.order_by('-nome')
-    # objetosList = objeto.objects.order_by('-nome')
-    # restricaoList = restricao.objects.order_by('-distancia')
-    #
-    # context_dict['relacoes'] = relacaoList
-    # context_dict['objetos'] = objetosList
-    # context_dict['restricoes'] = restricaoList
-    # context_dict['id'] = imag
-
-
+@login_required
+def CadCaso(request):
+    form = CasoForm()
+    return render(request, 'CadCaso.html', {'form': form})
 
 @login_required
 def resultadoCaso(request):

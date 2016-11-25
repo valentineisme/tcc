@@ -52,6 +52,6 @@ db.sqlite3
 
 #migrations
 00*_*
-
+.idea
 /.idea/
 .idea/workspace.xml

@@ -4,7 +4,7 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.contrib.auth.decorators import login_required
 from .models import relacao, objeto, restricao, casos, comunidade, imagem
-from .forms import UsuarioForm, ComunidadeForm
+from .forms import UsuarioForm, ComunidadeForm, ImagemForm
 
 
 def index(request):
@@ -68,38 +68,49 @@ def CadComunidade(request):
 
 @login_required
 def FormImagem(request):
-    context_dict = {}
-    comunidadeList = comunidade.objects.order_by('-nome')
-
-    context_dict['comunidades'] = comunidadeList
-    return render(request, 'FormImagem.html', context_dict)
+    form = ImagemForm()
+    return render(request, 'FormImagem.html', {'form': form})
 
 
 @login_required
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 def CadImagem(request):
     if request.POST:
-        comu = comunidade.objects.get(nome=request.POST.get('nome_comu'))
+        form = ImagemForm(request.POST, request.FILES)
+        print (request.FILES)
+        if form.is_valid():
+            form.save()
+            return render(request, 'caso.html')
+        else:
+            print(form.errors)
+        return render(request, 'FormImagem.html', {'form': form, 'method': 'post'})
 
-        # imagem = request.POST.get('imagem')
-        data = request.POST.get('data')
-        lati = request.POST.get('lati')
-        longi = request.POST.get('longe')
-        i = imagem(comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
-        i.save()
+        # comu = comunidade.objects.get(nome=request.POST.get('nome_comu'))
+        #
+        # # imagem = request.POST.get('imagem')
+        # data = request.POST.get('data')
+        # lati = request.POST.get('lati')
+        # longi = request.POST.get('longe')
+        # i = imagem(comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
+        # i.save()
+        #
+        # imag = imagem.objects.get(comunidade=comu)
 
-        imag = imagem.objects.get(comunidade=comu)
+    # context_dict = {}
+    # relacaoList = relacao.objects.order_by('-nome')
+    # objetosList = objeto.objects.order_by('-nome')
+    # restricaoList = restricao.objects.order_by('-distancia')
+    #
+    # context_dict['relacoes'] = relacaoList
+    # context_dict['objetos'] = objetosList
+    # context_dict['restricoes'] = restricaoList
+    # context_dict['id'] = imag
 
-    context_dict = {}
-    relacaoList = relacao.objects.order_by('-nome')
-    objetosList = objeto.objects.order_by('-nome')
-    restricaoList = restricao.objects.order_by('-distancia')
 
-    context_dict['relacoes'] = relacaoList
-    context_dict['objetos'] = objetosList
-    context_dict['restricoes'] = restricaoList
-    context_dict['id'] = imag
-
-    return render(request, 'caso.html', context_dict)
 
 @login_required
 def resultadoCaso(request):

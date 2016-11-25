@@ -1,10 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Caso - Área</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+    <div class="ui centered row">
+        <div class="ui segment issem-cad">
+            <a  href="{% url 'index' %}"><i class="big arrow circle left icon red"></i></a>
+            <h1> Cadastro Imagem </h1>
+            <form class="ui form" action="/CadImagem/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="fields">
+                    {#começa#}
+                    <div class="five wide field"></div>
+                    <div class="six wide field">
+                        <label>Comunidade</label>
+                        {{ form.comunidade }}
+                        {% if form.comunidade.errors %}
+                            <div class="ui pointing red basic label">
+                                {{ form.comunidade.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {#termina#}
+                    {#começa#}
+                    <div class="six wide field">
+                        <label>Imagem</label>
+                        {{ form.img }}
+                        {% if form.img.errors %}
+                            <div class="ui pointing red basic label">
+                                {{ form.img.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="five wide field"></div>
+                    {#termina#}
+                </div>
+
+                <div class="fields" >
+                    {#começa#}
+                    <div class="five wide field"></div>
+                    <div class="six wide field">
+                        <label>Latitude</label>
+                        {{ form.latitude }}
+                        {% if form.latitude.errors %}
+                            <div class="ui pointing red basic label">
+                                {{ form.latitude.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {#termina#}
+                    {#começa#}
+                    <div class="six wide field">
+                        <label>Longitude</label>
+                        {{ form.longitude }}
+                        {% if form.longitude.errors %}
+                            <div class="ui pointing red basic label">
+                                {{ form.longitude.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {#termina#}
+                    {#começa#}
+                    <div class="six wide field">
+                        <label>data Imagem</label>
+                        {{ form.dataImagem }}
+                        {% if form.dataImagem.errors %}
+                            <div class="ui pointing red basic label">
+                                {{ form.dataImagem.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="five wide field"></div>
+                    {#termina#}
+                </div>
+
+
+                {% include 'blocos/buttons_form.html' %}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
 <form action="/CadImagem/" method="post">{% csrf_token %}
     <table>
         <tr>

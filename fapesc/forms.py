@@ -20,10 +20,6 @@ class UsuarioForm(forms.ModelForm):
         model = usuario
         fields = ('nome','sobrenome','dataNasc','rua','numero','bairro','cidade','estado','email','senha')
 
-class imagemForm(forms.ModelForm):
-    class Meta:
-        model = imagem
-        fields = '__all__'
 
 class ComunidadeForm(forms.ModelForm):
     nome = forms.CharField(max_length=78, help_text='Nome:')
@@ -32,4 +28,14 @@ class ComunidadeForm(forms.ModelForm):
     estado = forms.CharField(max_length=128, help_text='Estado:')
     class Meta:
         model = usuario
+        fields = '__all__'
+
+class ImagemForm(forms.ModelForm):
+    img = forms.ImageField()
+    dataImagem = forms.DateField(widget=forms.TextInput(attrs={'onfocus': 'limita_data_final()'}))
+    latitude = forms.CharField(max_length=78, help_text='Latitude:')
+    longitude = forms.CharField(max_length=78, help_text='Longitude:')
+
+    class Meta:
+        model = imagem
         fields = '__all__'

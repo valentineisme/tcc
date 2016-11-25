@@ -4,7 +4,7 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.contrib.auth.decorators import login_required
 from .models import relacao, objeto, restricao, casos, comunidade, imagem
-from .forms import UsuarioForm
+from .forms import UsuarioForm, ComunidadeForm
 
 
 def index(request):
@@ -48,19 +48,17 @@ def validacao(request):
                 return render_to_response('index.html',(),context_instance=RequestContext(request, ()))
     return login(request)
 
-@login_required
-def sair(request):
-    logout(request)
-    return index(request)
+
 
 @login_required
 def FormComunidade(request):
-    return render(request, 'FormComunidade.html')
+    form = ComunidadeForm()
+    return render(request, 'FormComunidade.html', {'form': form})
 
 @login_required
 def CadComunidade(request):
     if request.POST:
-        nome = request.POST.get('nome_comu')
+        nome = request.POST.get('nome')
         bairro = request.POST.get('bairro')
         cidade = request.POST.get('cidade')
         estado = request.POST.get('estado')
@@ -137,3 +135,8 @@ def resultadoCaso(request):
         velhoCaso = [str(caso.objeto1), str(caso.relacao), str(caso.objeto2), caso.distancia, str(caso.resultado), str(caso.plano_acao)]
         resultado.append(distancia(peso, velhoCaso, novoCaso))
     return render(request, 'resultadoCaso.html', {"resultado": resultado})
+
+@login_required
+def sair(request):
+    logout(request)
+    return index(request)

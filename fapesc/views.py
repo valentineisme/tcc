@@ -82,14 +82,14 @@ def CadImagem(request):
     if request.POST:
         comu = comunidade.objects.get(nome=request.POST.get('nome_comu'))
 
-        # imagem = request.POST.get('imagem')
+        imagem_post = request.POST.get('imagem')
         data = request.POST.get('data')
         lati = request.POST.get('lati')
         longi = request.POST.get('longe')
-        i = imagem(comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
+        i = imagem(img=imagem_post, comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
         i.save()
 
-        imag = imagem.objects.get(comunidade=comu)
+
 
     context_dict = {}
     relacaoList = relacao.objects.order_by('-nome')
@@ -99,7 +99,7 @@ def CadImagem(request):
     context_dict['relacoes'] = relacaoList
     context_dict['objetos'] = objetosList
     context_dict['restricoes'] = restricaoList
-    context_dict['id'] = imag
+    #context_dict['id'] = imag
 
     return render(request, 'caso.html', context_dict)
 

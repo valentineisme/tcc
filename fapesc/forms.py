@@ -45,3 +45,4 @@ class CasoForm(forms.ModelForm):
     class Meta:
         model = casos
         fields = '__all__'
+        exclude = ('id_usuario',)

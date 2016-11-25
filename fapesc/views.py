@@ -89,11 +89,17 @@ def FormCaso(request):
 def CadCaso(request):
     if request.POST:
         form = CasoForm(request.POST)
+        #print(form.id_usuario_id)
+
+
 
         if form.is_valid():
-            current_user = request.user.id
-            form.id_usuario = (current_user - 1)
-            form.save()
+            post = form.save(commit=False)
+            current_user = usuario.objects.get(nome=request.user)
+            print(current_user.id)
+            post.id_usuario = current_user
+
+            post.save()
             return render(request, 'index.html')
         else:
             print(form.errors)

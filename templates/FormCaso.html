@@ -6,9 +6,9 @@
         <div class="ui segment issem-cad">
             <a  href="{% url 'index' %}"><i class="big arrow circle left icon red"></i></a>
             <h1> Cadastro Caso </h1>
-            <form class="ui form" action="/resultadoCaso/" method="post" enctype="multipart/form-data">
+            <form class="ui form" action="/CadCaso/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-
+                <input type="hidden" name="id_usuario" value="{{ request.user.id }}">
                 <div class="fields">
                     {#começa#}
                     <div class="five wide field"></div>

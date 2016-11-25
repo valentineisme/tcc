@@ -132,6 +132,7 @@ class casos(models.Model):
     objeto1 = models.ForeignKey(objeto, related_name="objeto1", null=True, blank=True)
     relacao = models.ForeignKey(relacao)
     objeto2 = models.ForeignKey(objeto, related_name="objeto2", null=True, blank=True)
+    id_usuario = models.ForeignKey(usuario)
     distancia = models.IntegerField(default=0)
     restricao = models.ForeignKey(restricao)
     resultado = models.CharField(max_length=128)

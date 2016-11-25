@@ -40,6 +40,7 @@
                         </div>
                         <div class="ui right aligned sub header">
                             {{ request.user }}
+                            {{ request.user.id }}
                             <a href="{% url 'sair' %}">
                                 <i class="sign out icon"></i>
                                 <label>Sair</label>

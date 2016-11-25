@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, logout, login as authlogin
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.contrib.auth.decorators import login_required
-from .models import relacao, objeto, restricao, casos, comunidade, imagem
+from .models import relacao, objeto, restricao, casos, comunidade, imagem, usuario
 from .forms import UsuarioForm, ComunidadeForm, ImagemForm, CasoForm
 
 
@@ -78,14 +78,27 @@ def CadImagem(request):
         print (request.FILES)
         if form.is_valid():
             form.save()
-            return render(request, 'CadCaso.html')
+            return render(request, 'FormCaso.html')
         else:
             print(form.errors)
         return render(request, 'FormImagem.html', {'form': form, 'method': 'post'})
 @login_required
-def CadCaso(request):
+def FormCaso(request):
     form = CasoForm()
-    return render(request, 'CadCaso.html', {'form': form})
+    return render(request, 'FormCaso.html', {'form': form})
+def CadCaso(request):
+    if request.POST:
+        form = CasoForm(request.POST)
+
+        if form.is_valid():
+            current_user = request.user.id
+            form.id_usuario = (current_user - 1)
+            form.save()
+            return render(request, 'index.html')
+        else:
+            print(form.errors)
+        return render(request, 'FormCaso.html', {'form': form, 'method': 'post'})
+
 
 @login_required
 def resultadoCaso(request):

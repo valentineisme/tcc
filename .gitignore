@@ -52,3 +52,5 @@ db.sqlite3
 
 #migrations
 00*_*
+
+.idea

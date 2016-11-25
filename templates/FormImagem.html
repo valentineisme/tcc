@@ -4,7 +4,7 @@
 
     <div class="ui centered row">
         <div class="ui segment issem-cad">
-            <a  href="{% url 'index' %}"><i class="big arrow circle left icon red"></i></a>
+            <a  href="{% url 'index' %}"><i class="big arrow circle left icon green"></i></a>
             <h1> Cadastro Imagem </h1>
             <form class="ui form" action="/CadImagem/" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -14,12 +14,17 @@
                     <div class="five wide field"></div>
                     <div class="six wide field">
                         <label>Comunidade</label>
+                    {% if id_comunidade %}
+
+                        <input id="comunidade" maxlength="78" name="comunidade" type="hidden" value="{{id_comunidade}}">
+                    {% else %}
                         {{ form.comunidade }}
                         {% if form.comunidade.errors %}
                             <div class="ui pointing red basic label">
                                 {{ form.comunidade.errors }}
                             </div>
                         {% endif %}
+                    {% endif %}
                     </div>
                     {#termina#}
                     {#começa#}

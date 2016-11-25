@@ -57,19 +57,37 @@ def FormComunidade(request):
 
 @login_required
 def CadComunidade(request):
-    if request.POST:
-        nome = request.POST.get('nome')
-        bairro = request.POST.get('bairro')
-        cidade = request.POST.get('cidade')
-        estado = request.POST.get('estado')
-        c = comunidade(nome=nome, bairro=bairro, cidade=cidade, estado=estado, teste=nome)
-        c.save()
-        return render(request, 'CadImagem.html', {'nome': nome})
 
+    if request.POST:
+        form = ComunidadeForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+
+            post.save()
+            id_comunidade = post.id
+            print (id_comunidade)
+
+            return HttpResponseRedirect('/FormImagem/'+str(id_comunidade))
+            # print (id_comunidade)
+            # return render_to_response('FormImagem.html',{'id_comunidade': id_comunidade},context_instance=RequestContext(request))
+            # return render(request, self.template, {'form': form, 'method': 'get', 'id': id})
+            # return render(request, 'FormImagem.html', {'form':form, 'method':'get', 'id_segurado': id_comunidade})
+        else:
+            print(form.errors)
+        return render(request, 'FormComunidade.html', {'form': form, 'method': 'post'})
 @login_required
-def FormImagem(request):
+def FormImagem(request, id_comunidade):
+    # print ('bla' + request.POST.get('id_comunidade'))
+    if id_comunidade:
+        nome_comunidade = comunidade.objects.get(id=id_comunidade)
+        id_comunidade = id_comunidade
+        print (id_comunidade)
+    else:
+        id_comunidade = None
     form = ImagemForm()
-    return render(request, 'FormImagem.html', {'form': form})
+    form.comunidade = id_comunidade
+    return render(request, 'FormImagem.html', {'form': form, 'id_comunidade': id_comunidade})
 
 @login_required
 def CadImagem(request):
@@ -78,7 +96,8 @@ def CadImagem(request):
         print (request.FILES)
         if form.is_valid():
             form.save()
-            return render(request, 'FormCaso.html')
+            id_imagem = form.id
+            return HttpResponseRedirect('/BuscarCaso/'+str(id_imagem))
         else:
             print(form.errors)
         return render(request, 'FormImagem.html', {'form': form, 'method': 'post'})
@@ -90,9 +109,6 @@ def CadCaso(request):
     if request.POST:
         form = CasoForm(request.POST)
         #print(form.id_usuario_id)
-
-
-
         if form.is_valid():
             post = form.save(commit=False)
             current_user = usuario.objects.get(nome=request.user)

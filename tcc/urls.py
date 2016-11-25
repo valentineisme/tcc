@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^FormComunidade/$', views.FormComunidade, name='FormComunidade'),
     url(r'^CadComunidade/$', views.CadComunidade, name='CadComunidade'),
     url(r'^FormImagem/$', views.FormImagem, name='FormImagem'),
+    url(r'^FormImagem/(?P<id_comunidade>\d+)/$', views.FormImagem, name='FormImagem'),
     url(r'^CadImagem/$', views.CadImagem, name='CadImagem'),
     url(r'^FormCaso/', views.FormCaso, name='FormCaso'),
     url(r'^CadCaso/', views.CadCaso, name='CadCaso'),

@@ -83,9 +83,6 @@ class comunidade(models.Model):
     bairro = models.CharField(max_length=128)
     cidade = models.CharField(max_length=128)
     estado = models.CharField(max_length=128)
-    teste = models.CharField(max_length=128)
-
-
     class Meta:
         verbose_name = 'Comunidade'
         verbose_name_plural = 'Comunidades'

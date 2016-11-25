@@ -77,7 +77,7 @@ def CadComunidade(request):
             print(form.errors)
         return render(request, 'FormComunidade.html', {'form': form, 'method': 'post'})
 @login_required
-def FormImagem(request, id_comunidade):
+def FormImagem(request, id_comunidade=None):
     # print ('bla' + request.POST.get('id_comunidade'))
     if id_comunidade:
         nome_comunidade = comunidade.objects.get(id=id_comunidade)
@@ -95,8 +95,10 @@ def CadImagem(request):
         form = ImagemForm(request.POST, request.FILES)
         print (request.FILES)
         if form.is_valid():
-            form.save()
-            id_imagem = form.id
+            post = form.save(commit=False)
+
+            post.save()
+            id_imagem = post.id
             return HttpResponseRedirect('/BuscarCaso/'+str(id_imagem))
         else:
             print(form.errors)

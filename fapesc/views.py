@@ -54,8 +54,8 @@ def sair(request):
     return index(request)
 
 @login_required
-def caso_area(request):
-    return render(request, 'caso_comunidade.html')
+def FormComunidade(request):
+    return render(request, 'FormComunidade.html')
 
 @login_required
 def CadComunidade(request):
@@ -64,34 +64,44 @@ def CadComunidade(request):
         bairro = request.POST.get('bairro')
         cidade = request.POST.get('cidade')
         estado = request.POST.get('estado')
-        imagem = request.POST.get('imagem')
-        c = comunidade(nome=nome, bairro=bairro, cidade=cidade, estado=estado,teste = nome)
+        c = comunidade(nome=nome, bairro=bairro, cidade=cidade, estado=estado, teste=nome)
         c.save()
-        return render(request, 'caso_imagem.html', {'nome':nome})
+        return render(request, 'CadImagem.html', {'nome': nome})
+
+@login_required
+def FormImagem(request):
+    context_dict = {}
+    comunidadeList = comunidade.objects.order_by('-nome')
+
+    context_dict['comunidades'] = comunidadeList
+    return render(request, 'FormImagem.html', context_dict)
+
 
 @login_required
 def CadImagem(request):
     if request.POST:
-        comunidadeList = comunidade.objects.order_by('-id')
-        for comu in comunidadeList:
-            if comu.nome == request.POST.get('nome_comu'):
-                img = request.POST.get('imagem')
-                data = request.POST.get('data')
-                lati = request.POST.get('lati')
-                longi = request.POST.get('longi')
-                i = imagem(img= img,  dataImagem = data, latitude = lati, longitude = longi)
-                i.save()
+        comu = comunidade.objects.get(nome=request.POST.get('nome_comu'))
 
-        context_dict = {}
-        relacaoList = relacao.objects.order_by('-nome')
-        objetosList = objeto.objects.order_by('-nome')
-        restricaoList = restricao.objects.order_by('-distancia')
+        # imagem = request.POST.get('imagem')
+        data = request.POST.get('data')
+        lati = request.POST.get('lati')
+        longi = request.POST.get('longe')
+        i = imagem(comunidade=comu, dataImagem=data, latitude=lati, longitude=longi)
+        i.save()
 
-        context_dict['relacoes'] = relacaoList
-        context_dict['objetos'] = objetosList
-        context_dict['restricoes'] = restricaoList
+        imag = imagem.objects.get(comunidade=comu)
 
-        return render(request, 'caso.html', {'id':imagem.id}, context_dict)
+    context_dict = {}
+    relacaoList = relacao.objects.order_by('-nome')
+    objetosList = objeto.objects.order_by('-nome')
+    restricaoList = restricao.objects.order_by('-distancia')
+
+    context_dict['relacoes'] = relacaoList
+    context_dict['objetos'] = objetosList
+    context_dict['restricoes'] = restricaoList
+    context_dict['id'] = imag
+
+    return render(request, 'caso.html', context_dict)
 
 @login_required
 def resultadoCaso(request):

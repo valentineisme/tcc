@@ -125,7 +125,7 @@ def BuscarCaso(request, id_imagem=None):
     if id_imagem:
         id_imagem = id_imagem
     else:
-        id_imagem = 1
+        id_imagem = 5
     form = BuscarCasoForm()
     form.id_imagem = id_imagem
     return render(request, 'BuscarCaso.html', {'form': form, 'id_imagem':id_imagem})

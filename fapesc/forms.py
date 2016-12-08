@@ -46,3 +46,10 @@ class CasoForm(forms.ModelForm):
         model = casos
         fields = '__all__'
         exclude = ('id_usuario',)
+
+class BuscarCasoForm(forms.ModelForm):
+
+    class Meta:
+        model = casos
+        fields = '__all__'
+        exclude = ('id_usuario', 'restricao', 'resultado', 'plano_acao')

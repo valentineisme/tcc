@@ -1,17 +1,41 @@
-<!DOCTYPE html>
-{% load staticfiles %}
+{% extends 'base.html' %}
+{% block body_block %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Comparação</title>
-</head>
-<body>
-{% csrf_token %}
-{% for result in resultado %}
-    {{ result }} <br><br>
-{% endfor %}
-<a href="/validacao/">Inicio</a><br>
-<a href="/caso/">Novo Caso</a><br>
-</body>
-</html>
+    <div class="ui centered row">
+        <div class="ui segment issem-cad">
+            <a  href="{% url 'index' %}"><i class="big arrow circle left icon red"></i></a>
+            <h1>  </h1>
+            <form class="ui form" action="/cadHistorico/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="id_imagem" value="{{ id_imagem }}">
+                 <div class="fields">
+                    {#começa#}
+                    <div class="two wide field"></div>
+                    <div class="twelve wide field">
+                            {% for result in resultado %}
+                                {% if result != "Nenhum caso similar encontrado" %}
+                                    <input type="radio" name="resultado" value="{{ result }}">{{ result }}<br><br>
+                                {% endif %}
+                            {% endfor %}
+                            {% for result in resultado|slice:":1" %}
+                                {% if result == "Nenhum caso similar encontrado" %}
+                                    <br>{{ result }} <br>
+                                    <a href="/FormCaso/">Cadastre um novo caso</a>
+                                {% endif %}
+                            {% endfor %}
+                    </div>
+                    {#começa#}
+                    {#termina#}
+                    </div>
+                    {#termina#}
+                 </div>
+                <div class="five wide field"></div>
+    {% include 'blocos/buttons_form.html' %}
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+

@@ -26,7 +26,7 @@ TEMPLATE_DIRS = (
 
 # Configurao da Pasta de Upload de Medias
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '%ifa%i2!*!ffhy)+j#=h^l8-&9ztqrlnxojj5!1b4&_vk^ej2^'

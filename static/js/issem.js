@@ -38,7 +38,6 @@ $(document).ready(function () {
     $('.ui.dropdown').dropdown();
     $('.ui.modal')
         .modal('setting', 'closable', false)
-        .modal('attach events', '#CadastroSecretaria', 'show');
 });
 
 function calendar_input(){

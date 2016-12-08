@@ -107,7 +107,7 @@ class imagem(models.Model):
 
 class historico(models.Model):
     usuario = models.ForeignKey(usuario)
-    #imagem = models.ForeignKey(imagem)
+    imagem = models.ForeignKey(imagem, null=True)
     data = models.DateField(blank=True)
     objeto1 = models.CharField(max_length=128)
     relacao = models.CharField(max_length=128)

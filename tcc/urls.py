@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from fapesc import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Examples:
@@ -22,5 +24,10 @@ urlpatterns = [
     url(r'^CadImagem/$', views.CadImagem, name='CadImagem'),
     url(r'^FormCaso/', views.FormCaso, name='FormCaso'),
     url(r'^CadCaso/', views.CadCaso, name='CadCaso'),
+    url(r'^BuscarCaso/$', views.BuscarCaso, name='BuscarCaso'),
+    url(r'^BuscarCaso/(?P<id_imagem>\d+)/$', views.BuscarCaso, name='BuscarCaso'),
     url(r'^resultadoCaso/', views.resultadoCaso, name='resultadoCaso'),
-]
+    url(r'^cadHistorico/', views.cadHistorico, name='cadHistorico'),
+    url(r'^MostrarHistoricos/', views.MostrarHistoricos, name='MostrarHistoricos'),
+    url(r'^ComparacaoHist/', views.ComparacaoHist, name='ComparacaoHist'),
+]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

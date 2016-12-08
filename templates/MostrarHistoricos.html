@@ -10,23 +10,35 @@
                  <div class="ui three column grid">
                     {#começa#}
                         {% for hist in historico %}
+                     <script type="text/javascript" >
+                         $(document).ready(function () {
+                             $('.ui.modal.{{ hist.id }}')
+                                 .modal('setting', 'closable', true)
+                                 .modal('attach events', '.column.lista.{{ hist.id }}', 'show')
+                                 .modal('attach events', '.ui.button.ok', 'hide');
+                         })
+                     </script>
                          <!-- MODAL -->
-                         <div class="ui modal">
+                         <div class="ui modal {{ hist.id }}">
                              <i class="close icon"></i>
                              <div class="header">
-                                 Modal Title
+                                 Comunidade: {{ hist.imagem.comunidade.nome }} <br>
+                                 {{ hist.imagem.comunidade.bairro }} - {{ hist.imagem.comunidade.cidade }} - {{ hist.imagem.comunidade.estado }}
                              </div>
                              <div class="image content">
                                  <div class="image">
-                                     An image can appear on left or an icon
+                                     <img src="{{ hist.imagem.img.url }}" width="300" height="300"><br>
                                  </div>
                                  <div class="description">
-                                     A description can appear on the right
+
+                                     {{ hist.data }}<br>
+                                     {{ hist.objeto1 }} {{ hist.relacao }} {{ hist.objeto2 }}<br>
+                                     Distância: {{ hist.distancia }}<br>
+                                     Plano de Ação: {{ hist.plano_acao }}
                                  </div>
                              </div>
                              <div class="actions">
-                                 <div class="ui button">Cancel</div>
-                                 <div class="ui button">OK</div>
+                                 <div class="ui button ok">OK</div>
                              </div>
                      </div>
 
@@ -36,13 +48,11 @@
 
                     <!-- LISTA -->
 
-                            <div class="column">
+                            <div class="column lista {{ hist.id }}">
                                 <div class="ui segment">
                                 <img src="{{ hist.imagem.img.url }}" width="300" height="300"><br>
-                                {{ hist.data }}<br>
-                            {{ hist.objeto1 }} {{ hist.relacao }} {{ hist.objeto2 }}<br>
-                            Distância: {{ hist.distancia }}<br>
-                            Plano de Ação: {{ hist.plano_acao }}
+                                    {{ hist.imagem.comunidade.nome }}<br>
+                                    {{ hist.data }}
                                     </div>
                             </div>
                         {% endfor %}
